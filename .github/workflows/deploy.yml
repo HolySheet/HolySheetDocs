@@ -18,6 +18,8 @@ jobs:
         uses: actions/setup-node@v1
       - name: npm install
         run: npm install
+      - run: pwd
+      - run: ls
       - name: Build
         run: npm run build
       - name: Build and Deploy
