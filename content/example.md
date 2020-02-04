@@ -9,7 +9,7 @@ GET /list
 #### Example request
 
 ```curl
-$ curl https://api.holysheet.org/list?{path}&{starred}&{trashed} -H 'Authentication: xyz'
+$ curl https://api.holysheet.org/list?path=subdir&starred=false&trashed=false -H 'Authentication: xyz'
 ```
 
 **Request**
@@ -88,7 +88,6 @@ $ curl -F 'data=@/home/RubbaBoy/input.png' https://api.holysheet.org/upload -H '
 
 
 
-
 ### Processing Status
 
 Lists HolySheet generated files.
@@ -100,7 +99,7 @@ GET /websocket
 #### Example request
 
 ```curl
-ws://api.holysheet.org/websocket?{processingToken}
+ws://api.holysheet.org/websocket?processingToken=976ac8c5-7a3d-41ca-ba7e-9e9bf824e24c
 ```
 
 #### Example response
@@ -112,3 +111,119 @@ ws://api.holysheet.org/websocket?{processingToken}
 **Response**
 
 The response comes in the form of a stream of number strings from 0-1, representing the percentage of completion the processing is at. The websocket will be closed 
+
+
+
+### Delete file
+
+Sends a given file ID into the standard Google Drive trash. If it is already trashed or the `permanent` query is `true`, it will be permanently deleted.
+
+```endpoint
+GET /delete?{id}&{permanent}
+```
+
+#### Example request
+
+```curl
+$ curl https://api.holysheet.org/delete?id=abc&permanent=false -H 'Authentication: xyz'
+```
+
+**Request**
+
+| Property    | Description                                            |
+| ----------- | ------------------------------------------------------ |
+| `id`        | The drive ID of the file to delete                     |
+| `permanent` | (optional) If the deletion should skip the trash phase |
+
+
+
+#### Response
+
+```json
+{
+    "message": "Deleted successfully"
+}
+```
+
+**Response**
+
+| Property  | Description          |
+| --------- | -------------------- |
+| `message` | The response message |
+
+
+
+### Restore file
+
+Restores a trashed file with the given drive ID.
+
+```endpoint
+GET /restore?{id}
+```
+
+#### Example request
+
+```curl
+$ curl https://api.holysheet.org/restore?id=abc -H 'Authentication: xyz'
+```
+
+**Request**
+
+| Property | Description                         |
+| -------- | ----------------------------------- |
+| `id`     | The drive ID of the file to restore |
+
+
+
+#### Response
+
+```json
+{
+    "message": "Restored successfully"
+}
+```
+
+**Response**
+
+| Property  | Description          |
+| --------- | -------------------- |
+| `message` | The response message |
+
+
+
+### Star file
+
+Stars (or unstars) a given file
+
+```endpoint
+GET /star?{id}&{starred}
+```
+
+#### Example request
+
+```curl
+$ curl https://api.holysheet.org/star?id=abc&starred=true -H 'Authentication: xyz'
+```
+
+**Request**
+
+| Property  | Description                                                  |
+| --------- | ------------------------------------------------------------ |
+| `id`      | The drive ID of the file to restore                          |
+| `starred` | A boolean value representing if a file should be starred (true) or unstarred (false). |
+
+
+
+#### Response
+
+```json
+{
+    "message": "Starred successfully"
+}
+```
+
+**Response**
+
+| Property  | Description          |
+| --------- | -------------------- |
+| `message` | The response message |
