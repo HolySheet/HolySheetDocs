@@ -20,15 +20,15 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-      - run: pwd
-      - run: ls
 #      - run: cat css/*.css > ../build/style.css
 #      - run: cp -t ../build bundle.js index.html scss/icon.eot scss/icon.woff
       - name: Moving Files
-        run: mkdir ../build && cp -r -t ../build {css,index.html,bundle.js} && cd ..
+        run: mkdir ../build && cp -r -t ../build {css,index.html,bundle.js}
+      - run: pwd
+      - run: ls
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: build # The folder the action should deploy.
+          FOLDER: ../build # The folder the action should deploy.
