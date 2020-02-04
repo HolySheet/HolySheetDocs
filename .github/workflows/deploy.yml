@@ -20,6 +20,8 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - run: pwd
+      - run: ls
 #      - run: cat css/*.css > ../build/style.css
 #      - run: cp -t ../build bundle.js index.html scss/icon.eot scss/icon.woff
       - name: Moving Files
