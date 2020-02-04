@@ -36,11 +36,11 @@ function chunkifyAST(ast, language) {
         if (node.lang === 'json' || node.lang === 'http' || node.lang === 'html') {
           right.push(node);
         } else if (node.lang === language) {
-          if (language === 'curl') {
-            right.push({ ...node, lang: 'bash'  });
-          } else {
+          // if (language === 'curl') {
+          //   right.push({ ...node, lang: 'bash'  });
+          // } else {
             right.push(node);
-          }
+          // }
         } else if (node.lang === 'endpoint') {
           right.push(transformURL(node.value));
         } else if (node.lang === null) {

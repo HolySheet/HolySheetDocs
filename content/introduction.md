@@ -1,6 +1,10 @@
-## Our API
+## HolySheet API
 
-Welcome to coolcorp biz! This is our API documentation. This documentation
-is generated from normal Markdown files using [docbox](https://github.com/tmcw/docbox),
-so it can use Markdown syntax, like **bold**, *emphasis*, ~~strikethrough~~,
-`code`, and more.
+This is the HolySheet web API documentation. This is used by the webapp but can be forked and used by others.
+
+The following are the headers that all requests should have:
+
+| Name          | Example                                                      | Description                                     |
+| ------------- | ------------------------------------------------------------ | ----------------------------------------------- |
+| Authorization | ya29.TcB0P5v6uuH7oiDjc8yLteZdB6yzXgw9WeAZPKgn8Dbubu1q1XvBZ6L4m_nVvdSc0mf6LVqLBW-SkAD0WquaUMmi14AWGQF1Uz6TYcScoSZcNQDZew_TYZNRLMqU15-qPyQ | The access token given by Google for the client |
+

@@ -1,431 +1,114 @@
-## Wobble
+### List files
 
-This is our high-quality wobbles API. You can use this API to request
-and remove different wobbles at a low wibble price.
-
-### List wobbles
-
-Lists all wobbles for a particular account.
+Lists HolySheet generated files.
 
 ```endpoint
-GET /wobbles/v1/{username}
+GET /list
 ```
 
 #### Example request
 
 ```curl
-$ curl https://wobble.biz/wobbles/v1/{username}
+$ curl https://api.holysheet.org/list?{path}&{starred}&{trashed} -H 'Authentication: xyz'
 ```
 
-```bash
-$ wbl wobbles list
-```
+**Request**
 
-```javascript
-client.listWobbles(function(err, wobbles) {
-  console.log(wobbles);
-});
-```
+| Property  | Description                                                  |
+| --------- | ------------------------------------------------------------ |
+| `path`    | (optional) The path to list files from relative from the `sheetStore` folder |
+| `starred` | (optional) Boolean value to only list starred files. Defaults to `false` |
+| `trashed` | (optional) Boolean value to only list trashed files. Defaults to `false` |
 
-```python
-wobbles.list()
-```
 
-#### Example response
+
+#### Response
 
 ```json
 [
   {
-    "owner": "{username}",
-    "id": "{wobble_id}",
-    "created": "{timestamp}",
-    "modified": "{timestamp}"
-  },
-  {
-    "owner": "{username}",
-    "id": "{wobble_id}",
-    "created": "{timestamp}",
-    "modified": "{timestamp}"
+    "name": "bob.mp4",
+    "id": "16dHIeHW82BYgBgfMlp3SQ8D1rhRmRO0F",
+    "sheets": 6,
+    "size": "59663369",
+    "date": "1580423863739",
+    "selfOwned": true,
+    "owner": "Adam Yarris",
+    "driveLink": "https://drive.google.com/drive/folders/16dHIeHW82BYgBgfMlp3SQ8D1rhRmRO0F",
+    "starred": true
   }
 ]
 ```
 
-### Create wobble
+**Response**
 
-Creates a new, empty wobble.
+| Property    | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
+| `name`      | The name of the file                                         |
+| `id`        | The drive ID of the containing folder of the sheets          |
+| `sheets`    | The number of sheets making up the file                      |
+| `size`      | The size in bytes of all encoded data uploaded to sheets     |
+| `date`      | The date in milliseconds the file was created                |
+| `selfOwned` | If the file is owned by the user or shared                   |
+| `owner`     | The file owner's name                                        |
+| `driveLink` | A direct Google Drive link to the top-level folder containing the sheets |
+| `starred`   | If the file is starred                                       |
+
+
+
+### Upload
+
+Uploads an arbitrary file to HolySheet.
 
 ```endpoint
-POST /wobbles/v1/{username}
+POST /upload
 ```
 
 #### Example request
 
 ```curl
-curl -X POST https://wobble.biz/wobbles/v1/{username}
+$ curl -F 'data=@/home/RubbaBoy/input.png' https://api.holysheet.org/upload -H 'Authentication: xyz'
 ```
 
-```bash
-$ wbl wobbles create
-```
-
-```javascript
-client.createWobble({
-  name: 'example',
-  description: 'An example wobble'
-}, function(err, wobble) {
-  console.log(wobble);
-});
-```
-
-```python
-response = wobbles.create(
-  name='example', description='An example wobble')
-```
-
-#### Example request body
+#### Response
 
 ```json
 {
-  "name": "foo",
-  "description": "bar"
+    "message": "Received successfully",
+    "processingToken": "bcf857c0-dff9-4764-85db-2baceb657a32"
 }
 ```
 
-Property | Description
----|---
-`name` | (optional) the name of the wobble
-`description` | (optional) a description of the wobble
+**Response**
 
-#### Example response
+| Property          | Description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| `message`         | The response message                                         |
+| `processingToken` | An untrimmed UUID token that may be used to connect with a websocket to get processing statuses |
 
-```json
-{
-  "owner": "{username}",
-  "id": "{wobble_id}",
-  "name": null,
-  "description": null,
-  "created": "{timestamp}",
-  "modified": "{timestamp}"
-}
-```
 
-### Retrieve a wobble
 
-Returns a single wobble.
+
+### Processing Status
+
+Lists HolySheet generated files.
 
 ```endpoint
-GET /wobbles/v1/{username}/{wobble_id}
-```
-
-Retrieve information about an existing wobble.
-
-#### Example request
-
-```curl
-curl https://wobble.biz/wobbles/v1/{username}/{wobble_id}
-```
-
-```bash
-$ wbl wobble read-wobble wobble-id
-```
-
-```python
-attrs = wobbles.read_wobble(wobble_id).json()
-```
-
-```javascript
-client.readWobble('wobble-id',
-  function(err, wobble) {
-    console.log(wobble);
-  });
-```
-
-#### Example response
-
-```json
-{
-  "owner": "{username}",
-  "id": "{wobble_id}",
-  "created": "{timestamp}",
-  "modified": "{timestamp}"
-}
-```
-
-### Update a wobble
-
-Updates the properties of a particular wobble.
-
-```endpoint
-PATCH /wobbles/v1/{username}/{wobble_id}
+GET /websocket
 ```
 
 #### Example request
 
 ```curl
-curl --request PATCH https://wobble.biz/wobbles/v1/{username}/{wobble_id} \
-  -d @data.json
-```
-
-```python
-resp = wobbles.update_wobble(
-  wobble_id,
-  name='updated example',
-  description='An updated example wobble'
-  ).json()
-```
-
-```bash
-$ wbl wobble update-wobble wobble-id
-```
-
-```javascript
-var options = { name: 'foo' };
-client.updateWobble('wobble-id', options, function(err, wobble) {
-  console.log(wobble);
-});
-```
-
-#### Example request body
-
-```json
-{
-  "name": "foo",
-  "description": "bar"
-}
-```
-
-Property | Description
----|---
-`name` | (optional) the name of the wobble
-`description` | (optional) a description of the wobble
-
-#### Example response
-
-```json
-{
-  "owner": "{username}",
-  "id": "{wobble_id}",
-  "name": "foo",
-  "description": "bar",
-  "created": "{timestamp}",
-  "modified": "{timestamp}"
-}
-```
-
-### Delete a wobble
-
-Deletes a wobble, including all wibbles it contains.
-
-```endpoint
-DELETE /wobbles/v1/{username}/{wobble_id}
-```
-
-#### Example request
-
-```curl
-curl -X DELETE https://wobble.biz/wobbles/v1/{username}/{wobble_id}
-```
-
-```bash
-$ wbl wobble delete-wobble wobble-id
-```
-
-```python
-resp = wobbles.delete_wobble(wobble_id)
-```
-
-```javascript
-client.deleteWobble('wobble-id', function(err) {
-  if (!err) console.log('deleted!');
-});
-```
-
-#### Example response
-
-> HTTP 204
-
-### List wibbles
-
-List all the wibbles in a wobble. The response body will be a
-WobbleCollection.
-
-```endpoint
-GET /wobbles/v1/{username}/{wobble_id}/wibbles
-```
-
-#### Example request
-
-```curl
-curl https://wobble.biz/wobbles/v1/{username}/{wobble_id}/wibbles
-```
-
-```bash
-$ wbl wobble list-wibbles wobble-id
-```
-
-```python
-collection = wobbles.list_wibbles(wobble_id).json()
-```
-
-```javascript
-client.listWobbles('wobble-id', {}, function(err, collection) {
-  console.log(collection);
-});
+ws://api.holysheet.org/websocket?{processingToken}
 ```
 
 #### Example response
 
 ```json
-{
-  "type": "Wobble",
-  "wibbles": [
-    {
-      "id": "{wibble_id}",
-      "type": "Wobble",
-      "properties": {
-        "prop0": "value0"
-      }
-    },
-    {
-      "id": "{wibble_id}",
-      "type": "Wobble",
-      "properties": {
-        "prop0": "value0"
-      }
-    }
-  ]
-}
+0.85
 ```
 
-### Insert or update a wibble
+**Response**
 
-Inserts or updates a wibble in a wobble. If there's already a wibble
-with the given ID in the wobble, it will be replaced. If there isn't
-a wibble with that ID, a new wibble is created.
-
-```endpoint
-PUT /wobbles/v1/{username}/{wobble_id}/wibbles/{wibble_id}
-```
-
-#### Example request
-
-```curl
-curl https://wobble.biz/wobbles/v1/{username}/{wobble_id}/wibbles/{wibble_id} \
-  -X PUT \
-  -d @file.geojson
-```
-
-```bash
-$ wbl wobble put-wibble wobble-id wibble-id 'geojson-wibble'
-```
-
-```javascript
-var wibble = {
-  "type": "Wobble",
-  "properties": { "name": "Null Island" }
-};
-client.insertWobble(wibble, 'wobble-id', function(err, wibble) {
-  console.log(wibble);
-});
-```
-
-#### Example request body
-
-```json
-{
-  "id": "{wibble_id}",
-  "type": "Wobble",
-  "properties": {
-    "prop0": "value0"
-  }
-}
-```
-
-Property | Description
---- | ---
-`id` | the id of an existing wibble in the wobble
-
-#### Example response
-
-```json
-{
-  "id": "{wibble_id}",
-  "type": "Wobble",
-  "properties": {
-    "prop0": "value0"
-  }
-}
-```
-
-### Retrieve a wibble
-
-Retrieves a wibble in a wobble.
-
-```endpoint
-GET /wobbles/v1/{username}/{wobble_id}/wibbles/{wibble_id}
-```
-
-#### Example request
-
-```curl
-curl https://wobble.biz/wobbles/v1/{username}/{wobble_id}/wibbles/{wibble_id}
-```
-
-```bash
-$ wbl wobble read-wibble wobble-id wibble-id
-```
-
-```javascript
-client.readWobble('wibble-id', 'wobble-id',
-  function(err, wibble) {
-    console.log(wibble);
-  });
-```
-
-```python
-wibble = wobbles.read_wibble(wobble_id, '2').json()
-```
-
-#### Example response
-
-```json
-{
-  "id": "{wibble_id}",
-  "type": "Wobble",
-  "properties": {
-    "prop0": "value0"
-  }
-}
-```
-
-### Delete a wibble
-
-Removes a wibble from a wobble.
-
-```endpoint
-DELETE /wobbles/v1/{username}/{wobble_id}/wibbles/{wibble_id}
-```
-
-#### Example request
-
-```javascript
-client.deleteWobble('wibble-id', 'wobble-id', function(err, wibble) {
-  if (!err) console.log('deleted!');
-});
-```
-
-```curl
-curl -X DELETE https://wobble.biz/wobbles/v1/{username}/{wobble_id}/wibbles/{wibble_id}
-```
-
-```python
-resp = wobbles.delete_wibble(wobble_id, wibble_id)
-```
-
-```bash
-$ wbl wobble delete-wibble wobble-id wibble-id
-```
-
-#### Example response
-
-> HTTP 204
+The response comes in the form of a stream of number strings from 0-1, representing the percentage of completion the processing is at. The websocket will be closed 
