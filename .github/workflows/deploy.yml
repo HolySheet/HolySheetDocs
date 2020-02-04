@@ -20,6 +20,8 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - run: cp -r build ../
+      - run: cd ../build
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
