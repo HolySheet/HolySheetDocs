@@ -20,8 +20,10 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-      - run: cp -r build ../
-      - run: cd ../build
+#      - run: cat css/*.css > ../build/style.css
+#      - run: cp -t ../build bundle.js index.html scss/icon.eot scss/icon.woff
+      - name: Moving Files
+        run: mkdir ../build && cp -r -t ../build {css,index.html,bundle.js} && cd ..
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:

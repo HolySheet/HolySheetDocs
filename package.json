@@ -1,17 +1,18 @@
 {
   "name": "docbox",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "an api documentation website",
   "main": "index.js",
   "scripts": {
+    "sass": "node-sass --output-style compressed scss/style.scss css/style.css",
+    "sass-live": "npm run sass -- --watch",
     "gen-index": "cpy index.html.sample --rename=index.html .",
     "postinstall": "npm run gen-index",
-    "start": "budo src/index.js --serve=bundle.js --live",
-    "release": "standard-version",
+    "start": "concurrently \"budo src/index.js --serve=bundle.js --live\" \"npm run sass-live\"",
     "test": "npm run test-unit && eslint src && npm run prerender -- /dev/null && rm -rf lib",
     "test-unit": "mocha --require babel-register test",
     "prerender": "babel src --out-dir lib && node lib/render.js",
-    "build": "npm run gen-index && cross-env NODE_ENV=production browserify src/index.js | uglifyjs -c -m > bundle.js && npm run prerender -- index.html && node-sass --output-style compressed scss -o css && rm -rf build && mkdir build && cat css/*.css > build/style.css && rm -rf css && cp -t build bundle.js index.html scss/icon.eot scss/icon.woff"
+    "build": "npm run gen-index && cross-env NODE_ENV=production browserify src/index.js | uglifyjs -c -m > bundle.js && npm run prerender -- index.html && npm run sass && cp -t css scss/{icon.eot,icon.woff}"
   },
   "browserify": {
     "transform": [
@@ -53,9 +54,11 @@
     "remark-html": "^7.0.0",
     "remark-slug": "^5.0.0",
     "unist-util-select": "^1.3.0",
-    "unist-util-visit": "^1.0.0"
+    "unist-util-visit": "^1.0.0",
+    "node-sass": "^4.13.1"
   },
   "devDependencies": {
+    "concurrently": "^5.1.0",
     "babel-register": "^6.3.13",
     "budo": "^11.0.0",
     "cpy-cli": "^2.0.0",
@@ -63,7 +66,6 @@
     "cz-conventional-changelog": "^2.1.0",
     "expect": "^24.1.0",
     "mocha": "^6.0.0",
-    "node-sass": "^4.13.1",
     "standard-version": "^6.0.1",
     "uglify-js": "^3.0.27"
   },
