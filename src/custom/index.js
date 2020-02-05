@@ -37,7 +37,7 @@ module.exports.postHighlight = function(html) {
  */
 function highlightTokens(str) {
   return str.replace(/{[\w_]+}/g,
-    (str) => '<span class="strong">' + str + '</span>');
+    (str) => '<span class="emphasized">' + str + '</span>');
 }
 
 /**

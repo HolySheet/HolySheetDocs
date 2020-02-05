@@ -1,6 +1,15 @@
 @import "base";
 @import "railscasts";
 
+/* Added by RubbaBoy */
+
+.emphasized {
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* End of added by RubbaBoy */
+
 /* BASE OVERRIDES */
 
 /* Add buffer for nicer anchor links */
