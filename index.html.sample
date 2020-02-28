@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset='utf-8'/>
     <meta http-equiv='X-UA-Compatible' content='IE=11'/>
     <title>HolySheet API</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+    <link rel="icon" href="//holysheet.net/favicon.ico">
 
     <meta property="og:title" content="HolySheet API">
     <meta property="og:site_name" content="HolySheet API">
-    <meta property="og:description" content="REST API Docs HolySheet">
+    <meta property="og:description" content="REST API Docs for HolySheet">
     <meta property="og:type" content="website">
-<!--    <meta property="og:image" content="">-->
+    <meta property="og:image" content="//holysheet.net/logos/holysheet-256.png">
 
     <link href='css/style.css' rel='stylesheet'/>
-  </head>
-  <body>
-    <!--START--><div id='app'></div><!--STOP-->
-    <script src='bundle.js'></script>
-  </body>
+</head>
+<body>
+<!--START--><div id='app'></div><!--STOP-->
+<script src='bundle.js'></script>
+</body>
 </html>

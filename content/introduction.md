@@ -2,7 +2,7 @@
 
 This is the HolySheet web API documentation. This is used by the webapp but can be forked and used by others.
 
-The following are the headers that all requests should have:
+The following are headers (OR URL queries if specified) all requests should have:
 
 | Name          | Example                                                      | Description                                     |
 | ------------- | ------------------------------------------------------------ | ----------------------------------------------- |

@@ -29,13 +29,15 @@ $ curl https://api.holysheet.org/list?path=subdir&starred=false&trashed=false -H
   {
     "name": "bob.mp4",
     "id": "16dHIeHW82BYgBgfMlp3SQ8D1rhRmRO0F",
+    "path": "/",
     "sheets": 6,
     "size": "59663369",
     "date": "1580423863739",
     "selfOwned": true,
     "owner": "Adam Yarris",
     "driveLink": "https://drive.google.com/drive/folders/16dHIeHW82BYgBgfMlp3SQ8D1rhRmRO0F",
-    "starred": true
+    "starred": true,
+    "trashed": false
   }
 ]
 ```
@@ -46,6 +48,7 @@ $ curl https://api.holysheet.org/list?path=subdir&starred=false&trashed=false -H
 | ----------- | ------------------------------------------------------------ |
 | `name`      | The name of the file                                         |
 | `id`        | The drive ID of the containing folder of the sheets          |
+| `path`      | The path of the file in HolySheet                            |
 | `sheets`    | The number of sheets making up the file                      |
 | `size`      | The size in bytes of all encoded data uploaded to sheets     |
 | `date`      | The date in milliseconds the file was created                |
@@ -53,6 +56,7 @@ $ curl https://api.holysheet.org/list?path=subdir&starred=false&trashed=false -H
 | `owner`     | The file owner's name                                        |
 | `driveLink` | A direct Google Drive link to the top-level folder containing the sheets |
 | `starred`   | If the file is starred                                       |
+| `trashed`   | If the file is currently in the trash                        |
 
 
 
@@ -61,58 +65,80 @@ $ curl https://api.holysheet.org/list?path=subdir&starred=false&trashed=false -H
 Uploads an arbitrary file to HolySheet.
 
 ```endpoint
-POST /upload
+WS /upload?{Authentication}&{name}&{length}&{path}
 ```
 
 #### Example request
 
 ```curl
-$ curl -F 'data=@/home/RubbaBoy/input.png' https://api.holysheet.org/upload -H 'Authentication: xyz'
+$ curl -F 'data=@/home/RubbaBoy/input.png' https://api.holysheet.org/upload?Authentication=xyz&name=input.png&length=123456&path=/
 ```
+
+**Request**
+
+| Property         | Description                                                  |
+| ---------------- | ------------------------------------------------------------ |
+| `Authentication` | The authentication token, instead of as a header             |
+| `name`           | The name of the file being uploaded                          |
+| `length`         | The length in bytes of the file being uploaded               |
+| `path`           | The path to list files from relative from the `sheetStore` folder |
 
 #### Response
 
 ```json
 {
-    "message": "Received successfully",
-    "processingToken": "bcf857c0-dff9-4764-85db-2baceb657a32"
+    "status": "ok",
+    "progress": 82
 }
 ```
 
-**Response**
-
-| Property          | Description                                                  |
-| ----------------- | ------------------------------------------------------------ |
-| `message`         | The response message                                         |
-| `processingToken` | An untrimmed UUID token that may be used to connect with a websocket to get processing statuses |
-
-
-
-### Processing Status
-
-Lists HolySheet generated files.
-
-```endpoint
-GET /websocket
-```
-
-#### Example request
-
-```curl
-ws://api.holysheet.org/websocket?processingToken=976ac8c5-7a3d-41ca-ba7e-9e9bf824e24c
-```
-
-#### Example response
+#### Response (1000 Normal)
 
 ```json
-0.85
+{
+    "status": "done",
+    "progress": 100
+}
 ```
+
+#### Response (1009 Too Large)
+
+```json
+{
+    "status": "Maximum payload size is 4000000 bytes",
+    "progress": 0
+}
+```
+
+#### Response (1011 Server Error)
+
+```json
+{
+    "status": "An internal error occurred",
+    "progress": 0
+}
+```
+
+
 
 **Response**
 
-The response comes in the form of a stream of number strings from 0-1, representing the percentage of completion the processing is at. The websocket will be closed 
+| Property   | Description                                                  |
+| ---------- | ------------------------------------------------------------ |
+| `status`   | The status of the previous chunk upload. Standard responses will be `"ok"` |
+| `progress` | The 0-100 percentage of completion                           |
 
+Whenever a `status` of `"ok"` is sent to the server, raw binary data of the file being uploaded must be sent. The upload will not succeed if data is sent otherwise. The most data sent per chunk is 4MB. Anything more will close with a 1009.
 
+**Response Codes**
+
+These are close reason codes. The standard response on the right will be the reason for the close.
+
+| Property | Description                                                  |
+| -------- | ------------------------------------------------------------ |
+| 1000     | A successful file upload, happens when the uploaded length meets the length given in the request. Status will always be `"done"` |
+| 1009     | The sent data is too large (Over 4MB)                        |
+| 1011     | An internal server error has occurred. Site administrators should look in the server logs for any stacktraces. The upload of the file is not guaranteed, it should be expected to have failed. |
 
 ### Delete file
 
