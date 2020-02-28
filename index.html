@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset='utf-8'/>
     <meta http-equiv='X-UA-Compatible' content='IE=11'/>
     <title>HolySheet API</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+    <link rel="icon" href="//holysheet.net/favicon.ico">
 
     <meta property="og:title" content="HolySheet API">
     <meta property="og:site_name" content="HolySheet API">
-    <meta property="og:description" content="REST API Docs HolySheet">
+    <meta property="og:description" content="REST API Docs for HolySheet">
     <meta property="og:type" content="website">
-<!--    <meta property="og:image" content="">-->
+    <meta property="og:image" content="//holysheet.net/logos/holysheet-256.png">
 
     <link href='css/style.css' rel='stylesheet'/>
-  </head>
-  <body>
-    <!--START--><div id='app'><div class="container unlimiter" data-reactroot="" data-reactid="1" data-react-checksum="1115724056"><div class="fixed-top fixed-right space-left16" data-reactid="2"><div class="fill-light col6 pin-right" data-reactid="3"></div></div><div class="space-top5 scroll-styled overflow-auto pad1 width16 sidebar fixed-left fill-dark dark" data-reactid="4"><div class="pad0x small" data-reactid="5"><div class="small pad0x quiet space-top1" data-reactid="6">Introduction</div><a href="#holysheet-api" class="line-height15 pad0x pad00y quiet block " data-reactid="7">HolySheet API</a><div class="small pad0x quiet space-top1" data-reactid="8">Example</div></div></div><div class="space-left16" data-reactid="9"><div class="" data-reactid="10"><div class="clearfix" data-reactid="11"><div data-title="HolySheet API" class="keyline-top section contain clearfix " data-reactid="12"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="13"><h2 id="holysheet-api">HolySheet API</h2>
+</head>
+<body>
+<!--START--><div id='app'><div class="container unlimiter" data-reactroot="" data-reactid="1" data-react-checksum="2119360577"><div class="fixed-top fixed-right space-left16" data-reactid="2"><div class="fill-light col6 pin-right" data-reactid="3"></div></div><div class="space-top5 scroll-styled overflow-auto pad1 width16 sidebar fixed-left fill-dark dark" data-reactid="4"><div class="pad0x small" data-reactid="5"><div class="small pad0x quiet space-top1" data-reactid="6">Introduction</div><a href="#holysheet-api" class="line-height15 pad0x pad00y quiet block " data-reactid="7">HolySheet API</a><div class="small pad0x quiet space-top1" data-reactid="8">Example</div></div></div><div class="space-left16" data-reactid="9"><div class="" data-reactid="10"><div class="clearfix" data-reactid="11"><div data-title="HolySheet API" class="keyline-top section contain clearfix " data-reactid="12"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="13"><h2 id="holysheet-api">HolySheet API</h2>
 <p>This is the HolySheet web API documentation. This is used by the webapp but can be forked and used by others.</p>
-<p>The following are the headers that all requests should have:</p>
+<p>The following are headers (OR URL queries if specified) all requests should have:</p>
 <table>
 <thead>
 <tr>
@@ -77,6 +78,10 @@
 <td>The drive ID of the containing folder of the sheets</td>
 </tr>
 <tr>
+<td><code>path</code></td>
+<td>The path of the file in HolySheet</td>
+</tr>
+<tr>
 <td><code>sheets</code></td>
 <td>The number of sheets making up the file</td>
 </tr>
@@ -104,6 +109,10 @@
 <td><code>starred</code></td>
 <td>If the file is starred</td>
 </tr>
+<tr>
+<td><code>trashed</code></td>
+<td>If the file is currently in the trash</td>
+</tr>
 </tbody>
 </table>
 </div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="16"><div class='endpoint dark fill-dark round '>
@@ -117,17 +126,46 @@
   {
     <span class="hljs-attr">"name"</span>: <span class="hljs-string">"bob.mp4"</span>,
     <span class="hljs-attr">"id"</span>: <span class="hljs-string">"16dHIeHW82BYgBgfMlp3SQ8D1rhRmRO0F"</span>,
+    <span class="hljs-attr">"path"</span>: <span class="hljs-string">"/"</span>,
     <span class="hljs-attr">"sheets"</span>: <span class="hljs-number">6</span>,
     <span class="hljs-attr">"size"</span>: <span class="hljs-string">"59663369"</span>,
     <span class="hljs-attr">"date"</span>: <span class="hljs-string">"1580423863739"</span>,
     <span class="hljs-attr">"selfOwned"</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">"owner"</span>: <span class="hljs-string">"Adam Yarris"</span>,
     <span class="hljs-attr">"driveLink"</span>: <span class="hljs-string">"https://drive.google.com/drive/folders/16dHIeHW82BYgBgfMlp3SQ8D1rhRmRO0F"</span>,
-    <span class="hljs-attr">"starred"</span>: <span class="hljs-literal">true</span>
+    <span class="hljs-attr">"starred"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"trashed"</span>: <span class="hljs-literal">false</span>
   }
 ]</pre>
 </div></div><div data-title="Upload" class="keyline-top section contain clearfix " data-reactid="17"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="18"><h3 id="upload">Upload</h3>
 <p>Uploads an arbitrary file to HolySheet.</p>
+<p><strong>Request</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authentication</code></td>
+<td>The authentication token, instead of as a header</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>The name of the file being uploaded</td>
+</tr>
+<tr>
+<td><code>length</code></td>
+<td>The length in bytes of the file being uploaded</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>The path to list files from relative from the <code>sheetStore</code> folder</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Response</strong></p>
 <table>
 <thead>
@@ -138,39 +176,67 @@
 </thead>
 <tbody>
 <tr>
-<td><code>message</code></td>
-<td>The response message</td>
+<td><code>status</code></td>
+<td>The status of the previous chunk upload. Standard responses will be <code>"ok"</code></td>
 </tr>
 <tr>
-<td><code>processingToken</code></td>
-<td>An untrimmed UUID token that may be used to connect with a websocket to get processing statuses</td>
+<td><code>progress</code></td>
+<td>The 0-100 percentage of completion</td>
+</tr>
+</tbody>
+</table>
+<p>Whenever a <code>status</code> of <code>"ok"</code> is sent to the server, raw binary data of the file being uploaded must be sent. The upload will not succeed if data is sent otherwise. The most data sent per chunk is 4MB. Anything more will close with a 1009.</p>
+<p><strong>Response Codes</strong></p>
+<p>These are close reason codes. The standard response on the right will be the reason for the close.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1000</td>
+<td>A successful file upload, happens when the uploaded length meets the length given in the request. Status will always be <code>"done"</code></td>
+</tr>
+<tr>
+<td>1009</td>
+<td>The sent data is too large (Over 4MB)</td>
+</tr>
+<tr>
+<td>1011</td>
+<td>An internal server error has occurred. Site administrators should look in the server logs for any stacktraces. The upload of the file is not guaranteed, it should be expected to have failed.</td>
 </tr>
 </tbody>
 </table>
 </div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="19"><div class='endpoint dark fill-dark round '>
-      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>POST</div>
-      <div class='pad0 code small endpoint-url'>/upload</div>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>WS</div>
+      <div class='pad0 code small endpoint-url'>/upload?<span class="emphasized">{Authentication}</span>&<span class="emphasized">{name}</span>&<span class="emphasized">{length}</span>&<span class="emphasized">{path}</span></div>
     </div>
 <h4 id="example-request-1">Example request</h4>
-<pre class='hljs'><span class="hljs-variable">$</span> curl <span class="hljs-attr">-F </span><span class="hljs-string">'data=@/home/RubbaBoy/input.png'</span><span class="hljs-type"> https://api.holysheet.org/upload</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
+<pre class='hljs'><span class="hljs-variable">$</span> curl <span class="hljs-attr">-F </span><span class="hljs-string">'data=@/home/RubbaBoy/input.png'</span><span class="hljs-type"> https://api.holysheet.org/upload</span><span class="hljs-meta">?Authentication=xyz&amp;name=input.png&amp;length=123456&amp;path=/</span></pre>
 <h4 id="response-1">Response</h4>
 <pre class='hljs'>{
-    <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Received successfully"</span>,
-    <span class="hljs-attr">"processingToken"</span>: <span class="hljs-string">"bcf857c0-dff9-4764-85db-2baceb657a32"</span>
+    <span class="hljs-attr">"status"</span>: <span class="hljs-string">"ok"</span>,
+    <span class="hljs-attr">"progress"</span>: <span class="hljs-number">82</span>
 }</pre>
-</div></div><div data-title="Processing Status" class="keyline-top section contain clearfix " data-reactid="20"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="21"><h3 id="processing-status">Processing Status</h3>
-<p>Lists HolySheet generated files.</p>
-<p><strong>Response</strong></p>
-<p>The response comes in the form of a stream of number strings from 0-1, representing the percentage of completion the processing is at. The websocket will be closed </p>
-</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="22"><div class='endpoint dark fill-dark round '>
-      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
-      <div class='pad0 code small endpoint-url'>/websocket</div>
-    </div>
-<h4 id="example-request-2">Example request</h4>
-<pre class='hljs'><span class="hljs-type">ws://api.holysheet.org/websocket</span><span class="hljs-meta">?processingToken=976ac8c5-7a3d-41ca-ba7e-9e9bf824e24c</span></pre>
-<h4 id="example-response">Example response</h4>
-<pre class='hljs'>0.85</pre>
-</div></div><div data-title="Delete file" class="keyline-top section contain clearfix " data-reactid="23"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="24"><h3 id="delete-file">Delete file</h3>
+<h4 id="response-1000-normal">Response (1000 Normal)</h4>
+<pre class='hljs'>{
+    <span class="hljs-attr">"status"</span>: <span class="hljs-string">"done"</span>,
+    <span class="hljs-attr">"progress"</span>: <span class="hljs-number">100</span>
+}</pre>
+<h4 id="response-1009-too-large">Response (1009 Too Large)</h4>
+<pre class='hljs'>{
+    <span class="hljs-attr">"status"</span>: <span class="hljs-string">"Maximum payload size is 4000000 bytes"</span>,
+    <span class="hljs-attr">"progress"</span>: <span class="hljs-number">0</span>
+}</pre>
+<h4 id="response-1011-server-error">Response (1011 Server Error)</h4>
+<pre class='hljs'>{
+    <span class="hljs-attr">"status"</span>: <span class="hljs-string">"An internal error occurred"</span>,
+    <span class="hljs-attr">"progress"</span>: <span class="hljs-number">0</span>
+}</pre>
+</div></div><div data-title="Delete file" class="keyline-top section contain clearfix " data-reactid="20"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="21"><h3 id="delete-file">Delete file</h3>
 <p>Sends a given file ID into the standard Google Drive trash. If it is already trashed or the <code>permanent</code> query is <code>true</code>, it will be permanently deleted.</p>
 <p><strong>Request</strong></p>
 <table>
@@ -206,17 +272,17 @@
 </tr>
 </tbody>
 </table>
-</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="25"><div class='endpoint dark fill-dark round '>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="22"><div class='endpoint dark fill-dark round '>
       <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
       <div class='pad0 code small endpoint-url'>/delete?<span class="emphasized">{id}</span>&<span class="emphasized">{permanent}</span></div>
     </div>
-<h4 id="example-request-3">Example request</h4>
+<h4 id="example-request-2">Example request</h4>
 <pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.org/delete</span><span class="hljs-meta">?id=abc&amp;permanent=false</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
 <h4 id="response-2">Response</h4>
 <pre class='hljs'>{
     <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Deleted successfully"</span>
 }</pre>
-</div></div><div data-title="Restore file" class="keyline-top section contain clearfix " data-reactid="26"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="27"><h3 id="restore-file">Restore file</h3>
+</div></div><div data-title="Restore file" class="keyline-top section contain clearfix " data-reactid="23"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="24"><h3 id="restore-file">Restore file</h3>
 <p>Restores a trashed file with the given drive ID.</p>
 <p><strong>Request</strong></p>
 <table>
@@ -248,17 +314,17 @@
 </tr>
 </tbody>
 </table>
-</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="28"><div class='endpoint dark fill-dark round '>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="25"><div class='endpoint dark fill-dark round '>
       <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
       <div class='pad0 code small endpoint-url'>/restore?<span class="emphasized">{id}</span></div>
     </div>
-<h4 id="example-request-4">Example request</h4>
+<h4 id="example-request-3">Example request</h4>
 <pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.org/restore</span><span class="hljs-meta">?id=abc</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
 <h4 id="response-3">Response</h4>
 <pre class='hljs'>{
     <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Restored successfully"</span>
 }</pre>
-</div></div><div data-title="Star file" class="keyline-top section contain clearfix " data-reactid="29"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="30"><h3 id="star-file">Star file</h3>
+</div></div><div data-title="Star file" class="keyline-top section contain clearfix " data-reactid="26"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="27"><h3 id="star-file">Star file</h3>
 <p>Stars (or unstars) a given file</p>
 <p><strong>Request</strong></p>
 <table>
@@ -294,19 +360,19 @@
 </tr>
 </tbody>
 </table>
-</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="31"><div class='endpoint dark fill-dark round '>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="28"><div class='endpoint dark fill-dark round '>
       <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
       <div class='pad0 code small endpoint-url'>/star?<span class="emphasized">{id}</span>&<span class="emphasized">{starred}</span></div>
     </div>
-<h4 id="example-request-5">Example request</h4>
+<h4 id="example-request-4">Example request</h4>
 <pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.org/star</span><span class="hljs-meta">?id=abc&amp;starred=true</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
 <h4 id="response-4">Response</h4>
 <pre class='hljs'>{
     <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Starred successfully"</span>
 }</pre>
-</div></div></div></div></div><div class="fixed-top space-left16" data-reactid="32"><div class="events fill-light bottom-shadow pad1 col6 pin-topright  " data-reactid="33"><div class="space-right1 small quiet inline" data-reactid="34">Show examples in:</div><div class="rounded-toggle inline short" data-reactid="35"><a class="strong active" data-reactid="36">cURL</a></div><div class="fr pad0" data-reactid="37"><a title="Display as 1 column" style="cursor:pointer;" class="icon quiet caret-left pad0 fill-darken0 round" data-reactid="38"></a></div></div></div><div class="fill-dark dark bottom-shadow fixed-top pad0 width16" data-reactid="39"><a href="/" class="active space-top1 space-left1 pin-topleft icon round dark pad0 fill-red" data-reactid="40"></a><div class="strong small pad0
+</div></div></div></div></div><div class="fixed-top space-left16" data-reactid="29"><div class="events fill-light bottom-shadow pad1 col6 pin-topright  " data-reactid="30"><div class="space-right1 small quiet inline" data-reactid="31">Show examples in:</div><div class="rounded-toggle inline short" data-reactid="32"><a class="strong active" data-reactid="33">cURL</a></div><div class="fr pad0" data-reactid="34"><a title="Display as 1 column" style="cursor:pointer;" class="icon quiet caret-left pad0 fill-darken0 round" data-reactid="35"></a></div></div></div><div class="fill-dark dark bottom-shadow fixed-top pad0 width16" data-reactid="36"><a href="/" class="active space-top1 space-left1 pin-topleft icon round dark pad0 brand-logo" data-reactid="37"></a><div class="strong small pad0
           
-          space-left4 line-height15" data-reactid="41">HolySheet API Documentation</div></div></div></div><!--STOP-->
-    <script src='bundle.js'></script>
-  </body>
+          space-left4 line-height15" data-reactid="38">HolySheet API Documentation</div></div></div></div><!--STOP-->
+<script src='bundle.js'></script>
+</body>
 </html>
