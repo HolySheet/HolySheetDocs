@@ -16,7 +16,7 @@
     <link href='css/style.css' rel='stylesheet'/>
 </head>
 <body>
-<!--START--><div id='app'><div class="container unlimiter" data-reactroot="" data-reactid="1" data-react-checksum="2119360577"><div class="fixed-top fixed-right space-left16" data-reactid="2"><div class="fill-light col6 pin-right" data-reactid="3"></div></div><div class="space-top5 scroll-styled overflow-auto pad1 width16 sidebar fixed-left fill-dark dark" data-reactid="4"><div class="pad0x small" data-reactid="5"><div class="small pad0x quiet space-top1" data-reactid="6">Introduction</div><a href="#holysheet-api" class="line-height15 pad0x pad00y quiet block " data-reactid="7">HolySheet API</a><div class="small pad0x quiet space-top1" data-reactid="8">Example</div></div></div><div class="space-left16" data-reactid="9"><div class="" data-reactid="10"><div class="clearfix" data-reactid="11"><div data-title="HolySheet API" class="keyline-top section contain clearfix " data-reactid="12"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="13"><h2 id="holysheet-api">HolySheet API</h2>
+<!--START--><div id='app'><div class="container unlimiter" data-reactroot="" data-reactid="1" data-react-checksum="377313223"><div class="fixed-top fixed-right space-left16" data-reactid="2"><div class="fill-light col6 pin-right" data-reactid="3"></div></div><div class="space-top5 scroll-styled overflow-auto pad1 width16 sidebar fixed-left fill-dark dark" data-reactid="4"><div class="pad0x small" data-reactid="5"><div class="small pad0x quiet space-top1" data-reactid="6">Introduction</div><a href="#holysheet-api" class="line-height15 pad0x pad00y quiet block " data-reactid="7">HolySheet API</a><div class="small pad0x quiet space-top1" data-reactid="8">Example</div></div></div><div class="space-left16" data-reactid="9"><div class="" data-reactid="10"><div class="clearfix" data-reactid="11"><div data-title="HolySheet API" class="keyline-top section contain clearfix " data-reactid="12"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="13"><h2 id="holysheet-api">HolySheet API</h2>
 <p>This is the HolySheet web API documentation. This is used by the webapp but can be forked and used by others.</p>
 <p>The following are headers (OR URL queries if specified) all requests should have:</p>
 <table>
@@ -120,7 +120,7 @@
       <div class='pad0 code small endpoint-url'>/list</div>
     </div>
 <h4 id="example-request">Example request</h4>
-<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.org/list</span><span class="hljs-meta">?path=subdir&amp;starred=false&amp;trashed=false</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
+<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.net/list</span><span class="hljs-meta">?path=subdir&amp;starred=false&amp;trashed=false</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
 <h4 id="response">Response</h4>
 <pre class='hljs'>[
   {
@@ -236,7 +236,52 @@
     <span class="hljs-attr">"status"</span>: <span class="hljs-string">"An internal error occurred"</span>,
     <span class="hljs-attr">"progress"</span>: <span class="hljs-number">0</span>
 }</pre>
-</div></div><div data-title="Delete file" class="keyline-top section contain clearfix " data-reactid="20"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="21"><h3 id="delete-file">Delete file</h3>
+</div></div><div data-title="Download" class="keyline-top section contain clearfix " data-reactid="20"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="21"><h3 id="download">Download</h3>
+<p>Downloads a given file by its ID.</p>
+<p><strong>Request</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authentication</code></td>
+<td>The authentication token, instead of as a header</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>The drive ID of the file to download</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>N/A</code></td>
+<td>The raw byte stream of the file will be sent over as a response</td>
+</tr>
+</tbody>
+</table>
+<p>Timeout on this request must be high, as it may take some time to process the file.</p>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="22"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
+      <div class='pad0 code small endpoint-url'>/download?<span class="emphasized">{Authentication}</span>&<span class="emphasized">{id}</span></div>
+    </div>
+<h4 id="example-request-2">Example request</h4>
+<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.net/download</span><span class="hljs-meta">?Authentication=xyz&amp;id=abc</span> <span class="hljs-attr">-o </span>file.png</pre>
+<h4 id="response-2">Response</h4>
+<pre class='hljs'>Byte stream</pre>
+</div></div><div data-title="Delete" class="keyline-top section contain clearfix " data-reactid="23"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="24"><h3 id="delete">Delete</h3>
 <p>Sends a given file ID into the standard Google Drive trash. If it is already trashed or the <code>permanent</code> query is <code>true</code>, it will be permanently deleted.</p>
 <p><strong>Request</strong></p>
 <table>
@@ -272,17 +317,17 @@
 </tr>
 </tbody>
 </table>
-</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="22"><div class='endpoint dark fill-dark round '>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="25"><div class='endpoint dark fill-dark round '>
       <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
       <div class='pad0 code small endpoint-url'>/delete?<span class="emphasized">{id}</span>&<span class="emphasized">{permanent}</span></div>
     </div>
-<h4 id="example-request-2">Example request</h4>
-<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.org/delete</span><span class="hljs-meta">?id=abc&amp;permanent=false</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
-<h4 id="response-2">Response</h4>
+<h4 id="example-request-3">Example request</h4>
+<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.net/delete</span><span class="hljs-meta">?id=abc&amp;permanent=false</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
+<h4 id="response-3">Response</h4>
 <pre class='hljs'>{
     <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Deleted successfully"</span>
 }</pre>
-</div></div><div data-title="Restore file" class="keyline-top section contain clearfix " data-reactid="23"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="24"><h3 id="restore-file">Restore file</h3>
+</div></div><div data-title="Restore" class="keyline-top section contain clearfix " data-reactid="26"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="27"><h3 id="restore">Restore</h3>
 <p>Restores a trashed file with the given drive ID.</p>
 <p><strong>Request</strong></p>
 <table>
@@ -314,18 +359,18 @@
 </tr>
 </tbody>
 </table>
-</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="25"><div class='endpoint dark fill-dark round '>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="28"><div class='endpoint dark fill-dark round '>
       <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
       <div class='pad0 code small endpoint-url'>/restore?<span class="emphasized">{id}</span></div>
     </div>
-<h4 id="example-request-3">Example request</h4>
-<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.org/restore</span><span class="hljs-meta">?id=abc</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
-<h4 id="response-3">Response</h4>
+<h4 id="example-request-4">Example request</h4>
+<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.net/restore</span><span class="hljs-meta">?id=abc</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
+<h4 id="response-4">Response</h4>
 <pre class='hljs'>{
     <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Restored successfully"</span>
 }</pre>
-</div></div><div data-title="Star file" class="keyline-top section contain clearfix " data-reactid="26"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="27"><h3 id="star-file">Star file</h3>
-<p>Stars (or unstars) a given file</p>
+</div></div><div data-title="Star" class="keyline-top section contain clearfix " data-reactid="29"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="30"><h3 id="star">Star</h3>
+<p>Stars (or unstars) a given file.</p>
 <p><strong>Request</strong></p>
 <table>
 <thead>
@@ -360,19 +405,107 @@
 </tr>
 </tbody>
 </table>
-</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="28"><div class='endpoint dark fill-dark round '>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="31"><div class='endpoint dark fill-dark round '>
       <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
       <div class='pad0 code small endpoint-url'>/star?<span class="emphasized">{id}</span>&<span class="emphasized">{starred}</span></div>
     </div>
-<h4 id="example-request-4">Example request</h4>
-<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.org/star</span><span class="hljs-meta">?id=abc&amp;starred=true</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
-<h4 id="response-4">Response</h4>
+<h4 id="example-request-5">Example request</h4>
+<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.net/star</span><span class="hljs-meta">?id=abc&amp;starred=true</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
+<h4 id="response-5">Response</h4>
 <pre class='hljs'>{
     <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Starred successfully"</span>
 }</pre>
-</div></div></div></div></div><div class="fixed-top space-left16" data-reactid="29"><div class="events fill-light bottom-shadow pad1 col6 pin-topright  " data-reactid="30"><div class="space-right1 small quiet inline" data-reactid="31">Show examples in:</div><div class="rounded-toggle inline short" data-reactid="32"><a class="strong active" data-reactid="33">cURL</a></div><div class="fr pad0" data-reactid="34"><a title="Display as 1 column" style="cursor:pointer;" class="icon quiet caret-left pad0 fill-darken0 round" data-reactid="35"></a></div></div></div><div class="fill-dark dark bottom-shadow fixed-top pad0 width16" data-reactid="36"><a href="/" class="active space-top1 space-left1 pin-topleft icon round dark pad0 brand-logo" data-reactid="37"></a><div class="strong small pad0
+</div></div><div data-title="Move" class="keyline-top section contain clearfix " data-reactid="32"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="33"><h3 id="move">Move</h3>
+<p>Moves a given file to a path. This does not move the file in Google Drive, it adds a property saying where the file is, requiring all file moving in HolySheet to be done through the API.</p>
+<p><strong>Request</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>The drive ID of the file to restore</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>The path to move the file to relative from the <code>sheetStore</code> folder</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td>The response message</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="34"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
+      <div class='pad0 code small endpoint-url'>/move?<span class="emphasized">{id}</span>&<span class="emphasized">{path}</span></div>
+    </div>
+<h4 id="example-request-6">Example request</h4>
+<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.net/move</span><span class="hljs-meta">?id=abc&amp;path=/test/</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
+<h4 id="response-6">Response</h4>
+<pre class='hljs'>{
+    <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Moved successfully"</span>
+}</pre>
+</div></div><div data-title="Create Folder" class="keyline-top section contain clearfix " data-reactid="35"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="36"><h3 id="create-folder">Create Folder</h3>
+<p>Creates an empty folder. These folders are not actual folders in Google Drive, they are simply some JSON data in the root <code>sheetStore</code> folder.</p>
+<p><strong>Request</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>path</code></td>
+<td>The path relative from the <code>sheetStore</code> folder to create</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td>The response message</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="37"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
+      <div class='pad0 code small endpoint-url'>/createfolder?<span class="emphasized">{path}</span></div>
+    </div>
+<h4 id="example-request-7">Example request</h4>
+<pre class='hljs'><span class="hljs-variable">$</span> curl<span class="hljs-type"> https://api.holysheet.net/createfolder</span><span class="hljs-meta">?path=/test/</span> <span class="hljs-attr">-H </span><span class="hljs-string">'Authentication: xyz'</span></pre>
+<h4 id="response-7">Response</h4>
+<pre class='hljs'>{
+    <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Created successfully"</span>
+}</pre>
+</div></div></div></div></div><div class="fixed-top space-left16" data-reactid="38"><div class="events fill-light bottom-shadow pad1 col6 pin-topright  " data-reactid="39"><div class="fr pad0" data-reactid="40"><a title="Display as 1 column" style="cursor:pointer;" class="floating-toggle-icon icon quiet caret-left pad0 fill-darken0 round" data-reactid="41"></a></div></div></div><div class="fill-dark dark bottom-shadow fixed-top pad0 width16" data-reactid="42"><a href="/" class="active space-top1 space-left1 pin-topleft icon round dark pad0 brand-logo" data-reactid="43"></a><div class="strong small pad0
           
-          space-left4 line-height15" data-reactid="38">HolySheet API Documentation</div></div></div></div><!--STOP-->
+          space-left4 line-height15" data-reactid="44">HolySheet API Documentation</div></div></div></div><!--STOP-->
 <script src='bundle.js'></script>
 </body>
 </html>
