@@ -141,3 +141,56 @@ body .prose blockquote {
   margin-left: 10px;
   vertical-align: middle;
 }
+
+// Dark mode
+
+body, html, .space-left16, .fill-light, .container {
+  background: #151617;
+}
+
+body, input, textarea {
+  color: rgba(186, 184, 182, 0.75);
+}
+
+table.prose th, .prose table th {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+table.prose, .prose table, table.prose th, table.prose td, .prose table th, .prose table td, thead, tr, th {
+  border: 1px solid rgb(46, 46, 46) !important;
+}
+
+.fill-dark {
+  background-color: rgb(49, 51, 54);
+}
+
+.keyline-top {
+  border-top-color: rgba(82, 82, 82, 0.1);
+}
+
+.fill-lighten0 {
+  background-image: initial;
+  background-color: rgba(19, 21, 22, 0.1);
+}
+
+.endpoint-method {
+  background-color: rgba(15, 17, 18, 0.35);
+}
+
+.dark a.quiet, a.quiet.dark {
+  color: rgb(204, 204, 204);
+}
+
+.floating-toggle-icon {
+  color: rgb(204, 204, 204) !important;
+  background: #313336;
+}
+
+.fixed-top.space-left16 {
+  background: transparent;
+}
+
+.fill-lighten0.round.quiet {
+  background: rgba(15, 17, 18, 0.35);
+}
+

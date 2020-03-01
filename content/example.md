@@ -9,7 +9,7 @@ GET /list
 #### Example request
 
 ```curl
-$ curl https://api.holysheet.org/list?path=subdir&starred=false&trashed=false -H 'Authentication: xyz'
+$ curl https://api.holysheet.net/list?path=subdir&starred=false&trashed=false -H 'Authentication: xyz'
 ```
 
 **Request**
@@ -57,8 +57,6 @@ $ curl https://api.holysheet.org/list?path=subdir&starred=false&trashed=false -H
 | `driveLink` | A direct Google Drive link to the top-level folder containing the sheets |
 | `starred`   | If the file is starred                                       |
 | `trashed`   | If the file is currently in the trash                        |
-
-
 
 ### Upload
 
@@ -140,7 +138,44 @@ These are close reason codes. The standard response on the right will be the rea
 | 1009     | The sent data is too large (Over 4MB)                        |
 | 1011     | An internal server error has occurred. Site administrators should look in the server logs for any stacktraces. The upload of the file is not guaranteed, it should be expected to have failed. |
 
-### Delete file
+### Download
+
+Downloads a given file by its ID.
+
+```endpoint
+GET /download?{Authentication}&{id}
+```
+
+#### Example request
+
+```curl
+$ curl https://api.holysheet.net/download?Authentication=xyz&id=abc -o file.png
+```
+
+**Request**
+
+| Property         | Description                                      |
+| ---------------- | ------------------------------------------------ |
+| `Authentication` | The authentication token, instead of as a header |
+| `id`             | The drive ID of the file to download             |
+
+
+
+#### Response
+
+```json
+Byte stream
+```
+
+**Response**
+
+| Property | Description                                                  |
+| -------- | ------------------------------------------------------------ |
+| `N/A`    | The raw byte stream of the file will be sent over as a response |
+
+Timeout on this request must be high, as it may take some time to process the file.
+
+### Delete
 
 Sends a given file ID into the standard Google Drive trash. If it is already trashed or the `permanent` query is `true`, it will be permanently deleted.
 
@@ -151,7 +186,7 @@ GET /delete?{id}&{permanent}
 #### Example request
 
 ```curl
-$ curl https://api.holysheet.org/delete?id=abc&permanent=false -H 'Authentication: xyz'
+$ curl https://api.holysheet.net/delete?id=abc&permanent=false -H 'Authentication: xyz'
 ```
 
 **Request**
@@ -177,9 +212,7 @@ $ curl https://api.holysheet.org/delete?id=abc&permanent=false -H 'Authenticatio
 | --------- | -------------------- |
 | `message` | The response message |
 
-
-
-### Restore file
+### Restore
 
 Restores a trashed file with the given drive ID.
 
@@ -190,7 +223,7 @@ GET /restore?{id}
 #### Example request
 
 ```curl
-$ curl https://api.holysheet.org/restore?id=abc -H 'Authentication: xyz'
+$ curl https://api.holysheet.net/restore?id=abc -H 'Authentication: xyz'
 ```
 
 **Request**
@@ -215,11 +248,9 @@ $ curl https://api.holysheet.org/restore?id=abc -H 'Authentication: xyz'
 | --------- | -------------------- |
 | `message` | The response message |
 
+### Star
 
-
-### Star file
-
-Stars (or unstars) a given file
+Stars (or unstars) a given file.
 
 ```endpoint
 GET /star?{id}&{starred}
@@ -228,7 +259,7 @@ GET /star?{id}&{starred}
 #### Example request
 
 ```curl
-$ curl https://api.holysheet.org/star?id=abc&starred=true -H 'Authentication: xyz'
+$ curl https://api.holysheet.net/star?id=abc&starred=true -H 'Authentication: xyz'
 ```
 
 **Request**
@@ -245,6 +276,79 @@ $ curl https://api.holysheet.org/star?id=abc&starred=true -H 'Authentication: xy
 ```json
 {
     "message": "Starred successfully"
+}
+```
+
+**Response**
+
+| Property  | Description          |
+| --------- | -------------------- |
+| `message` | The response message |
+
+### Move
+
+Moves a given file to a path. This does not move the file in Google Drive, it adds a property saying where the file is, requiring all file moving in HolySheet to be done through the API.
+
+```endpoint
+GET /move?{id}&{path}
+```
+
+#### Example request
+
+```curl
+$ curl https://api.holysheet.net/move?id=abc&path=/test/ -H 'Authentication: xyz'
+```
+
+**Request**
+
+| Property  | Description                                                  |
+| --------- | ------------------------------------------------------------ |
+| `id`      | The drive ID of the file to restore                          |
+| `path` | The path to move the file to relative from the `sheetStore` folder |
+
+
+
+#### Response
+
+```json
+{
+    "message": "Moved successfully"
+}
+```
+
+**Response**
+
+| Property  | Description          |
+| --------- | -------------------- |
+| `message` | The response message |
+
+### Create Folder
+
+Creates an empty folder. These folders are not actual folders in Google Drive, they are simply some JSON data in the root `sheetStore` folder.
+
+```endpoint
+GET /createfolder?{path}
+```
+
+#### Example request
+
+```curl
+$ curl https://api.holysheet.net/createfolder?path=/test/ -H 'Authentication: xyz'
+```
+
+**Request**
+
+| Property  | Description                                                  |
+| --------- | ------------------------------------------------------------ |
+| `path` | The path relative from the `sheetStore` folder to create |
+
+
+
+#### Response
+
+```json
+{
+    "message": "Created successfully"
 }
 ```
 

@@ -173,21 +173,13 @@ export default class App extends React.PureComponent {
       {/* Language toggle */ }
       <div className={`fixed-top ${queryMatches.desktop && 'space-left16'}`}>
         <div className={`events fill-light bottom-shadow pad1 ${col1 ? '' : 'col6 pin-topright'} ${queryMatches.tablet ? 'dark fill-blue' : ''} ${queryMatches.mobile ? 'space-top5 fixed-topright' : ''}`}>
-          <div className='space-right1 small quiet inline'>
-            Show examples in:
-          </div>
-          <RoundedToggle
-            short={!queryMatches.widescreen}
-            options={languageOptions}
-            onChange={this.onChangeLanguage}
-            active={this.state.language} />
           <div className='fr pad0'>
             {queryMatches.desktop ?
               <a
                 title={`Display as ${col1 ? 2 : 1} column`}
                 onClick={this.toggleColumnMode}
                 style={{ cursor: 'pointer' }}
-                className={`icon quiet caret-${col1 ? 'right' : 'left'} pad0 fill-darken0 round`} /> : null}
+                className={`floating-toggle-icon icon quiet caret-${col1 ? 'right' : 'left'} pad0 fill-darken0 round`} /> : null}
           </div>
         </div>
       </div>
